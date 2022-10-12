@@ -1,8 +1,12 @@
+import controllers.NoteAPI
+import models.Note
 import mu.KotlinLogging
 import java.lang.System.exit
 import utils.ScannerInput
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 
-
+private val noteAPI = NoteAPI()
 fun mainMenu() : Int {
     return ScannerInput.readNextInt("""
        >---------------------------
@@ -34,10 +38,21 @@ fun runMenu(){
 }
 
 fun addNote(){
-    logger.info{"addNote() function invoked"}
+    //logger.info{"addNote() function invoked"}
+    val noteTitle = readNextLine("Enter a title for the note:")
+    val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+    val noteCategory = readNextLine("Enter a category for the note: ")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+
+    if (isAdded) {
+        println("Added Successfully")
+    } else {
+        println("Add Failed")
+    }
 }
 fun listNotes(){
-    logger.info{"listNotes() function invoked"}
+    //logger.info{"listNotes() function invoked"}
+    println(noteAPI.listAllNotes())
 }
 fun updateNote(){
     logger.info{"updateNote() function invoked"}
