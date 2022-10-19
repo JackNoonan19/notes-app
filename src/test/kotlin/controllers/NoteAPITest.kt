@@ -2,7 +2,8 @@ package controllers
 
 import models.Note
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
+import java.util.*
 import kotlin.test.assertEquals
 
 class NoteAPITest {
@@ -15,7 +16,7 @@ class NoteAPITest {
     private var emptyNotes: NoteAPI? = NoteAPI()
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         learnKotlin = Note("Learning Kotlin", 5, "College", false)
         summerHoliday = Note("Summer Holiday to France", 1, "Holiday", true)
         codeApp = Note("Code App", 4, "Work", true)
@@ -31,7 +32,7 @@ class NoteAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         learnKotlin = null
         summerHoliday = null
         codeApp = null
@@ -40,8 +41,6 @@ class NoteAPITest {
         populatedNotes = null
         emptyNotes = null
     }
-
-
 
 
     @Nested
@@ -68,11 +67,8 @@ class NoteAPITest {
     }
 
 
-
-
     @Nested
     inner class ListNotes {
-
 
 
         @Test
@@ -140,7 +136,8 @@ class NoteAPITest {
     @Test
     fun `listNotesBySelectedPriority returns No Notes when ArrayList is empty`() {
         assertEquals(0, emptyNotes!!.numberOfNotes())
-        assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
+        assertTrue(
+            emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
         )
     }
 
@@ -176,6 +173,28 @@ class NoteAPITest {
         assertFalse(priority4String.contains("learning kotlin"))
         assertFalse(priority4String.contains("summer holiday"))
     }
+
+    @Nested
+    inner class DeleteNotes {
+
+        @Test
+        fun `deleting a Note that does not exist, returns null`() {
+            assertNull(emptyNotes!!.deleteNote(0))
+            assertNull(populatedNotes!!.deleteNote(-1))
+            assertNull(populatedNotes!!.deleteNote(5))
+        }
+
+
+        @Test
+        fun `deleting a note that exists delete and returns deleted object`() {
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(swim, populatedNotes!!.deleteNote(4))
+            assertEquals(4, populatedNotes!!.numberOfNotes())
+            assertEquals(learnKotlin, populatedNotes!!.deleteNote(0))
+            assertEquals(3, populatedNotes!!.numberOfNotes())
+        }
+    }
+}
 
 
 
