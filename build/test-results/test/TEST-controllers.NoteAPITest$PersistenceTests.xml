@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="controllers.NoteAPITest$PersistenceTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-10-19T15:07:57" hostname="IT101PC18" time="0.276">
+  <properties/>
+  <testcase name="saving and loading an loaded collection in XML doesn't loose data()" classname="controllers.NoteAPITest$PersistenceTests" time="0.276"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
