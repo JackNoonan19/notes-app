@@ -302,7 +302,6 @@ class NoteAPITest {
         assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
         assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
     }
-
     @Nested
     inner class ArchiveNotes {
         @Test
