@@ -17,7 +17,7 @@ fun mainMenu() : Int {
        >|    NOTE KEEPER APP      |
        >---------------------------
        >|NOTE MENU                |
-       >|   1) Add aa note         |
+       >|   1) Add a note         |
        >|   2) List all notes     |
        >|   3) Update a note      |
        >|   4) Delete a note      |
