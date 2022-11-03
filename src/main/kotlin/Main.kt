@@ -62,8 +62,26 @@ fun addNote(){
 }
 fun listNotes(){
     //logger.info{"listNotes() function invoked"}
-    println(noteAPI.listAllNotes())
-}
+        if (noteAPI.numberOfNotes() > 0) {
+            val option = readNextInt(
+                """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) View ACTIVE notes       |
+                  > |   3) View ARCHIVED notes     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+            when (option) {
+                1 -> listAllNotes();
+                2 -> listActiveNotes();
+                3 -> listArchivedNotes();
+                else -> println("Invalid option entered: " + option);
+            }
+        } else {
+            println("Option Invalid - No notes stored");
+        }
+    }
 fun updateNote(){
     //logger.info{"updateNote() function invoked"}
     listNotes()
@@ -131,7 +149,13 @@ fun load() {
     }
 }
 
+fun listAllNotes() {
+    println(noteAPI.listAllNotes())
+}
 
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
+}
 
 fun listActiveNotes() {
     println(noteAPI.listActiveNotes())
