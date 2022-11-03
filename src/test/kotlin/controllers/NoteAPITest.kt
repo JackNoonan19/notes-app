@@ -111,10 +111,10 @@ class NoteAPITest {
         assertEquals(3, populatedNotes!!.numberOfActiveNotes())
         val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
         assertTrue(activeNotesString.contains("learning kotlin"))
-        Assertions.assertFalse(activeNotesString.contains("code app"))
+        assertFalse(activeNotesString.contains("code app"))
         assertTrue(activeNotesString.contains("summer holiday"))
         assertTrue(activeNotesString.contains("test app"))
-        Assertions.assertFalse(activeNotesString.contains("swim"))
+        assertFalse(activeNotesString.contains("swim"))
     }
 
     @Test
@@ -129,10 +129,10 @@ class NoteAPITest {
     fun `listArchivedNotes returns archived notes when ArrayList has archived notes stored`() {
         assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
         val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
-        Assertions.assertFalse(archivedNotesString.contains("learning kotlin"))
+        assertFalse(archivedNotesString.contains("learning kotlin"))
         assertTrue(archivedNotesString.contains("code app"))
-        Assertions.assertFalse(archivedNotesString.contains("summer holiday"))
-        Assertions.assertFalse(archivedNotesString.contains("test app"))
+        assertFalse(archivedNotesString.contains("summer holiday"))
+        assertFalse(archivedNotesString.contains("test app"))
         assertTrue(archivedNotesString.contains("swim"))
     }
 
@@ -322,6 +322,38 @@ class NoteAPITest {
             assertFalse(populatedNotes!!.findNote(1)!!.isNoteArchived)
             assertTrue(populatedNotes!!.archiveNote(1))
             assertTrue(populatedNotes!!.findNote(1)!!.isNoteArchived)
+        }
+    }
+
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfNotesCalculatedCorrectly() {
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+        }
+
+        @Test
+        fun numberOfArchivedNotesCalculatedCorrectly() {
+            assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
+            assertEquals(0, emptyNotes!!.numberOfArchivedNotes())
+        }
+
+        @Test
+        fun numberOfActiveNotesCalculatedCorrectly() {
+            assertEquals(3, populatedNotes!!.numberOfActiveNotes())
+            assertEquals(0, emptyNotes!!.numberOfActiveNotes())
+        }
+
+        @Test
+        fun numberOfNotesByPriorityCalculatedCorrectly() {
+            assertEquals(1, populatedNotes!!.numberOfNotesByPriority(1))
+            assertEquals(0, populatedNotes!!.numberOfNotesByPriority(2))
+            assertEquals(1, populatedNotes!!.numberOfNotesByPriority(3))
+            assertEquals(2, populatedNotes!!.numberOfNotesByPriority(4))
+            assertEquals(1, populatedNotes!!.numberOfNotesByPriority(5))
+            assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
         }
     }
 }
