@@ -22,8 +22,9 @@ fun mainMenu() : Int {
        >|   3) Update a note      |
        >|   4) Delete a note      |
        >|   5) Archive a note     |
-       >|   6) Save               |
-       >|   7) Load               |
+       >|   6) Search note        |
+       >|   7) Save               |
+       >|   8) Load               |
        >---------------------------
        >|   0) Exit               |
        >---------------------------
@@ -39,8 +40,9 @@ fun runMenu(){
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
-            6 -> save()
-            7 -> load()
+            6 -> searchNotes()
+            7 -> save()
+            8 -> load()
             0 -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
@@ -172,6 +174,16 @@ fun archiveNote() {
         } else {
             println("Archive NOT Successful")
         }
+    }
+}
+
+fun searchNotes() {
+    val searchTitle = readNextLine("Please enter a description to search notes using: ")
+    val searchResults = noteAPI.searchByTitle(searchTitle)
+    if (searchResults.isEmpty()) {
+        println("No notes found")
+    } else {
+        println(searchResults)
     }
 }
 
