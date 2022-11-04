@@ -185,10 +185,10 @@ class NoteAPITest {
         assertEquals(3, populatedNotes!!.numberOfActiveNotes())
         val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
         assertTrue(activeNotesString.contains("learning kotlin"))
-        Assertions.assertFalse(activeNotesString.contains("code app"))
+        assertFalse(activeNotesString.contains("code app"))
         assertTrue(activeNotesString.contains("summer holiday"))
         assertTrue(activeNotesString.contains("test app"))
-        Assertions.assertFalse(activeNotesString.contains("swim"))
+        assertFalse(activeNotesString.contains("swim"))
     }
 
     @Test
@@ -203,10 +203,10 @@ class NoteAPITest {
     fun `listArchivedNotes returns archived notes when ArrayList has archived notes stored`() {
         assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
         val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
-        Assertions.assertFalse(archivedNotesString.contains("learning kotlin"))
+        assertFalse(archivedNotesString.contains("learning kotlin"))
         assertTrue(archivedNotesString.contains("code app"))
-        Assertions.assertFalse(archivedNotesString.contains("summer holiday"))
-        Assertions.assertFalse(archivedNotesString.contains("test app"))
+        assertFalse(archivedNotesString.contains("summer holiday"))
+        assertFalse(archivedNotesString.contains("test app"))
         assertTrue(archivedNotesString.contains("swim"))
     }
 
@@ -398,6 +398,7 @@ class NoteAPITest {
             assertTrue(populatedNotes!!.findNote(1)!!.isNoteArchived)
         }
     }
+
     @Nested
     inner class CountingMethods {
 

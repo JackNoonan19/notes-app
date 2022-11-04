@@ -63,23 +63,6 @@ class NoteAPI(serializerType: Serializer) {
         }
     }*/
 
-    fun listArchivedNotes(): String =
-        if (numberOfArchivedNotes() == 0) "No archived notes stored"
-        else notes.joinToString(separator = "\n") { note ->
-            notes.indexOf(note).toString() + ": " + note.toString()}
-
-
-    /*fun numberOfArchivedNotes(): Int {
-        //helper method to determine how many archived notes there are
-        var counter = 0
-            for (note in notes) {
-              if (note.isNoteArchived) {
-                counter++
-            }
-        }
-     return counter
-    }*/
-
     fun numberOfArchivedNotes(): Int {
         return notes.stream()
             .filter{note: Note -> note.isNoteArchived}
@@ -87,16 +70,8 @@ class NoteAPI(serializerType: Serializer) {
             .toInt()
     }
 
-    /*fun numberOfActiveNotes(): Int {
-        //helper method to determine how many active notes there are
-        var counter = 0
-            for (note in notes) {
-              if (!note.isNoteArchived) {
-                counter++
-            }
-        }
-     return counter
-    }*/
+
+
     fun numberOfActiveNotes(): Int {
         return notes.stream()
             .filter{note: Note -> !note.isNoteArchived}
@@ -123,22 +98,22 @@ class NoteAPI(serializerType: Serializer) {
         }
     }
 
-    /*fun numberOfNotesByPriority(priority: Int): Int {
-        var counter = 0
-        for (note in notes) {
-            if (note.notePriority == priority) {
-                counter++
-            }
-        }
-        return counter
-    }*/
+
     fun numberOfNotesByPriority(priority: Int):
             Int = notes.count {
             p: Note -> p.notePriority == priority
             }
 
+    fun numberOfNotesByPriority(priority: Int):
+            Int = notes.count
+            {
+            p: Note -> p.notePriority == priority
+            }
+
+
     fun numberOfNotes(): Int =
         notes.size
+
 
 
     fun findNote(index: Int): Note? {
@@ -197,6 +172,13 @@ class NoteAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(notes)
     }
+        fun listArchivedNotes(): String =
+        if (numberOfArchivedNotes() == 0) "No archived notes stored"
+        else notes.joinToString(separator = "\n") { note ->
+            notes.indexOf(note).toString() + ": " + note.toString()}
+            
+        fun numberOfNotes(): Int =
+        notes.size
 }
 
 
