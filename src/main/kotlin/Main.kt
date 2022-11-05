@@ -44,7 +44,7 @@ fun runMenu(){
             5 -> archiveNote()
             6 -> searchNotes()
             7 -> searchNotesCat()
-            8 -> searchNotesPri()
+           // 8 -> searchNotesPri()
             9 -> save()
             10 -> load()
             0 -> exitApp()
