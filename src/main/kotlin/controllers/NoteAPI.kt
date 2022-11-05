@@ -147,6 +147,14 @@ class NoteAPI(serializerType: Serializer) {
         notes.size
 
 
+    fun searchByCategory (searchString : String) =
+        formatListString(
+            notes.filter { note -> note.noteCategory.contains(searchString, ignoreCase = true) })
+
+   /* fun searchByPriority (searchString : String) =
+        formatListString(
+            notes.filter { note -> note.notePriority.contains(searchString, ignoreCase = true) })*/
+
     fun searchByTitle (searchString : String) =
         formatListString(
             notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true) })

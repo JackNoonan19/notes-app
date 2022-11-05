@@ -23,6 +23,8 @@ fun mainMenu() : Int {
        >|   4) Delete a note      |
        >|   5) Archive a note     |
        >|   6) Search note        |
+       >|   6) Search by Category |
+       >|   6) Search by Priority |
        >|   7) Save               |
        >|   8) Load               |
        >---------------------------
@@ -41,8 +43,10 @@ fun runMenu(){
             4 -> deleteNote()
             5 -> archiveNote()
             6 -> searchNotes()
-            7 -> save()
-            8 -> load()
+            7 -> searchNotesCat()
+            8 -> searchNotesPri()
+            9 -> save()
+            10 -> load()
             0 -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
@@ -186,7 +190,27 @@ fun searchNotes() {
         println(searchResults)
     }
 }
+fun searchNotesCat() {
+    val searchCategory = readNextLine("Please enter a Category to search notes using: ")
+    val searchResults = noteAPI.searchByCategory(searchCategory)
+    if (searchResults.isEmpty()) {
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+}
 
+
+/*fun searchNotesPri() {
+    val searchPriority = readNextLine("Please enter a priority level | 1-(low), 2, 3, 4, 5-(high) |: ")
+    val searchResults = noteAPI.searchByPriority(searchPriority)
+    if (searchResults.isEmpty()) {
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+}
+*/
 
 
 
