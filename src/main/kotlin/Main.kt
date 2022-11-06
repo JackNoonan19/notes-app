@@ -79,6 +79,9 @@ fun listNotes(){
                   > |   3) View ARCHIVED notes     |
                   > |   4) View FORMAL notes       |
                   > |   5) View NON-FORMAL notes   |
+                  > |   6) View To DO Notes        |
+                  > |   7) View Doing Notes        |
+                  > |   8) View Done Notes         |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -88,6 +91,9 @@ fun listNotes(){
                 3 -> listArchivedNotes();
                 4 -> listFormalNotes();
                 5 -> listNonFormalNotes();
+                6 -> listTodoNotes();
+                7 -> listDoneNotes();
+                8 -> listDoingNotes()
                 else -> println("Invalid option entered: " + option);
             }
         } else {
