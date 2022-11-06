@@ -62,10 +62,9 @@ class NoteAPI(serializerType: Serializer) {
     }*/
 
     fun numberOfArchivedNotes(): Int = notes.count { note: Note -> note.isNoteArchived }
-
-
-
     fun numberOfActiveNotes(): Int = notes.count { note: Note -> !note.isNoteArchived }
+    fun numberOfFormalNotes(): Int = notes.count { note: Note -> note.isNoteFormal }
+    fun numberOfNonFormalNotes(): Int = notes.count { note: Note -> !note.isNoteNonFormal }
 
     fun listNotesBySelectedPriority(priority: Int): String =
         if (notes.isEmpty()) "No notes stored"
@@ -142,7 +141,37 @@ class NoteAPI(serializerType: Serializer) {
     fun listArchivedNotes(): String =
         if  (numberOfArchivedNotes() == 0) "No archived notes stored"
         else formatListString(notes.filter { note -> note.isNoteArchived})
-            
+
+    fun listFormalNotes(): String =
+        if  (numberOfFormalNotes() == 0) "No formal notes stored"
+        else formatListString(notes.filter { note -> note.isNoteFormal})
+
+    fun listNonFormalNotes(): String =
+        if  (numberOfNonFormalNotes() == 0) "No non-formal notes stored"
+        else formatListString(notes.filter { note -> note.isNoteNonFormal})
+
+
+    fun makeNoteFormal(indexToFormal: Int): Boolean {
+        if (isValidIndex(indexToFormal)) {
+            val noteToFormal = notes[indexToFormal]
+            if (!noteToFormal.isNoteFormal) {
+                noteToFormal.isNoteFormal = true
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteNonFormal(indexToNonFormal: Int): Boolean {
+        if (isValidIndex(indexToNonFormal)) {
+            val noteToNonFormal = notes[indexToNonFormal]
+            if (!noteToNonFormal.isNoteNonFormal) {
+                noteToNonFormal.isNoteNonFormal = true
+                return true
+            }
+        }
+        return false
+    }
+
         fun numberOfNotes(): Int =
         notes.size
 
