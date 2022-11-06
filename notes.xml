@@ -4,19 +4,34 @@
       <noteTitle>Test App</noteTitle>
       <notePriority>4</notePriority>
       <noteCategory>Work</noteCategory>
+      <isNoteFormal>false</isNoteFormal>
+      <isNoteNonFormal>true</isNoteNonFormal>
+      <todoNote>false</todoNote>
+      <doingNote>false</doingNote>
+      <isNoteDone>false</isNoteDone>
       <isNoteArchived>false</isNoteArchived>
     </models.Note>
     <models.Note>
       <noteTitle>Swim - Pool</noteTitle>
       <notePriority>3</notePriority>
       <noteCategory>Hobby</noteCategory>
+      <isNoteFormal>false</isNoteFormal>
+      <isNoteNonFormal>true</isNoteNonFormal>
+      <todoNote>false</todoNote>
+      <doingNote>false</doingNote>
+      <isNoteDone>false</isNoteDone>
       <isNoteArchived>false</isNoteArchived>
     </models.Note>
     <models.Note>
       <noteTitle>Summer Holiday to France</noteTitle>
       <notePriority>1</notePriority>
       <noteCategory>Holiday</noteCategory>
-      <isNoteArchived>true</isNoteArchived>
+      <isNoteFormal>false</isNoteFormal>
+      <isNoteNonFormal>true</isNoteNonFormal>
+      <todoNote>false</todoNote>
+      <doingNote>false</doingNote>
+      <isNoteDone>false</isNoteDone>
+      <isNoteArchived>false</isNoteArchived>
     </models.Note>
   </list>
 </object-stream>

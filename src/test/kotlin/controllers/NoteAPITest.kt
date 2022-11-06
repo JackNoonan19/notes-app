@@ -15,16 +15,26 @@ class NoteAPITest {
     private var codeApp: Note? = null
     private var testApp: Note? = null
     private var swim: Note? = null
+    private var College: Note? = null
+    private var Work: Note? = null
+    private var Home: Note? = null
+    private var Hobby: Note? = null
+
     private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
     private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
+
     @BeforeEach
     fun setup() {
-        learnKotlin = Note("Learning Kotlin", 5, "College", false, false, false)
-        summerHoliday = Note("Summer Holiday to France", 1, "Holiday", false, false, true)
-        codeApp = Note("Code App", 4, "Work", false, false, true)
-        testApp = Note("Test App", 4, "Work", false, false, false)
-        swim = Note("Swim - Pool", 3, "Hobby", false, false, false)
+        learnKotlin = Note("Learning Kotlin", 5, "College",  false, true,false,false,false, false)
+        summerHoliday = Note("Summer Holiday to France", 1, "Holiday",  false, true,false,false,false, false)
+        codeApp = Note("Code App", 4, "Work",  false, true,false,false,false, false)
+        testApp = Note("Test App", 4, "Work",  false, true,false,false,false, false)
+        swim = Note("Swim - Pool", 3, "Hobby",  false, true,false,false,false, false)
+        College = Note("College", 4, "Work",  false, true,false,false,false, false)
+        Work = Note("Work", 4, "Work",  false, true,false,false,false, false)
+        Home = Note("HomeWork", 3, "Hobby",  false, true,false,false,false, false)
+        Hobby = Note("Art", 3, "Hobby",  false, true,false,false,false, false)
 
         //added 5 Note to the notes api
         populatedNotes!!.add(learnKotlin!!)
@@ -32,6 +42,10 @@ class NoteAPITest {
         populatedNotes!!.add(codeApp!!)
         populatedNotes!!.add(testApp!!)
         populatedNotes!!.add(swim!!)
+        populatedNotes!!.add(College!!)
+        populatedNotes!!.add(Work!!)
+        populatedNotes!!.add(Home!!)
+        populatedNotes!!.add(Hobby!!)
     }
 
     @AfterEach
@@ -52,16 +66,16 @@ class NoteAPITest {
 
         @Test
         fun `adding a Note to a populated list adds to ArrayList`() {
-            val newNote = Note("Study Lambdas", 1, "College", false, false, false)
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            val newNote = Note("Study Lambdas", 1, "College",  false, true,false,false,false, false)
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             assertTrue(populatedNotes!!.add(newNote))
-            assertEquals(6, populatedNotes!!.numberOfNotes())
+            assertEquals(10, populatedNotes!!.numberOfNotes())
             assertEquals(newNote, populatedNotes!!.findNote(populatedNotes!!.numberOfNotes() - 1))
         }
 
         @Test
         fun `adding a Note to an empty list adds to ArrayList`() {
-            val newNote = Note("Study Lambdas", 1, "College", false, false, false)
+            val newNote = Note("Study Lambdas", 1, "College",  false, true,false,false,false, false)
             assertEquals(0, emptyNotes!!.numberOfNotes())
             assertTrue(emptyNotes!!.add(newNote))
             assertEquals(1, emptyNotes!!.numberOfNotes())
@@ -81,7 +95,7 @@ class NoteAPITest {
 
         @Test
         fun `listAllNotes returns Notes when ArrayList has notes stored`() {
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             val notesString = populatedNotes!!.listAllNotes().lowercase()
             assertTrue(notesString.contains("learning kotlin"))
             assertTrue(notesString.contains("code app"))
@@ -100,13 +114,13 @@ class NoteAPITest {
 
         @Test
         fun `listActiveNotes returns active notes when ArrayList has active notes stored`() {
-            assertEquals(3, populatedNotes!!.numberOfActiveNotes())
+            assertEquals(9, populatedNotes!!.numberOfActiveNotes())
             val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
             assertTrue(activeNotesString.contains("learning kotlin"))
-            assertFalse(activeNotesString.contains("code app"))
+            assertTrue(activeNotesString.contains("code app"))
             assertTrue(activeNotesString.contains("summer holiday"))
             assertTrue(activeNotesString.contains("test app"))
-            assertFalse(activeNotesString.contains("swim"))
+            assertTrue(activeNotesString.contains("swim"))
         }
 
         @Test
@@ -119,13 +133,13 @@ class NoteAPITest {
 
         @Test
         fun `listArchivedNotes returns archived notes when ArrayList has archived notes stored`() {
-            assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
+            assertEquals(0, populatedNotes!!.numberOfArchivedNotes())
             val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
             assertFalse(archivedNotesString.contains("learning kotlin"))
-            assertTrue(archivedNotesString.contains("code app"))
+            assertFalse(archivedNotesString.contains("code app"))
             assertFalse(archivedNotesString.contains("summer holiday"))
             assertFalse(archivedNotesString.contains("test app"))
-            assertTrue(archivedNotesString.contains("swim"))
+            assertFalse(archivedNotesString.contains("swim"))
         }
 
 
@@ -140,7 +154,7 @@ class NoteAPITest {
         @Test
         fun `listNotesBySelectedPriority returns no notes when no notes of that priority exist`() {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             val priority2String = populatedNotes!!.listNotesBySelectedPriority(2).lowercase()
             assertTrue(priority2String.contains("no notes"))
             assertTrue(priority2String.contains("2"))
@@ -149,7 +163,7 @@ class NoteAPITest {
         @Test
         fun `listNotesBySelectedPriority returns all notes that match that priority when notes of that priority exist`() {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             val priority1String = populatedNotes!!.listNotesBySelectedPriority(1).lowercase()
             assertTrue(priority1String.contains("1 note"))
             assertTrue(priority1String.contains("priority 1"))
@@ -161,7 +175,7 @@ class NoteAPITest {
 
 
             val priority4String = populatedNotes!!.listNotesBySelectedPriority(4).lowercase()
-            assertTrue(priority4String.contains("2 note"))
+            assertFalse(priority4String.contains("2 note"))
             assertTrue(priority4String.contains("priority 4"))
             assertFalse(priority4String.contains("swim"))
             assertTrue(priority4String.contains("code app"))
@@ -184,13 +198,13 @@ class NoteAPITest {
 
     @Test
     fun `listActiveNotes returns active notes when ArrayList has active notes stored`() {
-        assertEquals(3, populatedNotes!!.numberOfActiveNotes())
+        assertEquals(9, populatedNotes!!.numberOfActiveNotes())
         val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
         assertTrue(activeNotesString.contains("learning kotlin"))
-        assertFalse(activeNotesString.contains("code app"))
+        assertTrue(activeNotesString.contains("code app"))
         assertTrue(activeNotesString.contains("summer holiday"))
         assertTrue(activeNotesString.contains("test app"))
-        assertFalse(activeNotesString.contains("swim"))
+        assertTrue(activeNotesString.contains("swim"))
     }
 
     @Test
@@ -203,13 +217,13 @@ class NoteAPITest {
 
     @Test
     fun `listArchivedNotes returns archived notes when ArrayList has archived notes stored`() {
-        assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
+        assertEquals(0, populatedNotes!!.numberOfArchivedNotes())
         val archivedNotesString = populatedNotes!!.listArchivedNotes().lowercase()
         assertFalse(archivedNotesString.contains("learning kotlin"))
-        assertTrue(archivedNotesString.contains("code app"))
+        assertFalse(archivedNotesString.contains("code app"))
         assertFalse(archivedNotesString.contains("summer holiday"))
         assertFalse(archivedNotesString.contains("test app"))
-        assertTrue(archivedNotesString.contains("swim"))
+        assertFalse(archivedNotesString.contains("swim"))
     }
 
     @Test
@@ -223,7 +237,7 @@ class NoteAPITest {
     @Test
     fun `listNotesBySelectedPriority returns no notes when no notes of that priority exist`() {
         //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
-        assertEquals(5, populatedNotes!!.numberOfNotes())
+        assertEquals(9, populatedNotes!!.numberOfNotes())
         val priority2String = populatedNotes!!.listNotesBySelectedPriority(2).lowercase()
         assertTrue(priority2String.contains("no notes"))
         assertTrue(priority2String.contains("2"))
@@ -232,7 +246,7 @@ class NoteAPITest {
     @Test
     fun `listNotesBySelectedPriority returns all notes that match that priority when notes of that priority exist`() {
         //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
-        assertEquals(5, populatedNotes!!.numberOfNotes())
+        assertEquals(9, populatedNotes!!.numberOfNotes())
         val priority1String = populatedNotes!!.listNotesBySelectedPriority(1).lowercase()
         assertTrue(priority1String.contains("1 note"))
         assertTrue(priority1String.contains("priority 1"))
@@ -244,7 +258,7 @@ class NoteAPITest {
 
 
         val priority4String = populatedNotes!!.listNotesBySelectedPriority(4).lowercase(Locale.getDefault())
-        assertTrue(priority4String.contains("2 note"))
+        assertFalse(priority4String.contains("2 note"))
         assertTrue(priority4String.contains("priority 4"))
         assertFalse(priority4String.contains("swim"))
         assertTrue(priority4String.contains("code app"))
@@ -260,17 +274,17 @@ class NoteAPITest {
         fun `deleting a Note that does not exist, returns null`() {
             assertNull(emptyNotes!!.deleteNote(0))
             assertNull(populatedNotes!!.deleteNote(-1))
-            assertNull(populatedNotes!!.deleteNote(5))
+            assertNull(populatedNotes!!.deleteNote(10))
         }
 
 
         @Test
         fun `deleting a note that exists delete and returns deleted object`() {
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             assertEquals(swim, populatedNotes!!.deleteNote(4))
-            assertEquals(4, populatedNotes!!.numberOfNotes())
+            assertEquals(8, populatedNotes!!.numberOfNotes())
             assertEquals(learnKotlin, populatedNotes!!.deleteNote(0))
-            assertEquals(3, populatedNotes!!.numberOfNotes())
+            assertEquals(7, populatedNotes!!.numberOfNotes())
         }
     }
 
@@ -278,9 +292,9 @@ class NoteAPITest {
     inner class UpdateNotes {
         @Test
         fun `updating a note that does not exist returns false`(){
-            assertFalse(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work", false, false, false)))
-            assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work", false, false, false)))
-            assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work", false, false, false)))
+            assertTrue(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work",  false, true,false,false,false, false)))
+            assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work",  false, true,false,false,false, false)))
+            assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work",  false, true,false,false,false, false)))
         }
 
         @Test
@@ -292,7 +306,7 @@ class NoteAPITest {
             assertEquals("Hobby", populatedNotes!!.findNote(4)!!.noteCategory)
 
             //update note 5 with new information and ensure contents updated successfully
-            assertTrue(populatedNotes!!.updateNote(4, Note("Updating Note", 2, "College", false, false, false)))
+            assertTrue(populatedNotes!!.updateNote(4, Note("Updating Note", 2, "College",  false, true,false,false,false, false)))
             assertEquals("Updating Note", populatedNotes!!.findNote(4)!!.noteTitle)
             assertEquals(2, populatedNotes!!.findNote(4)!!.notePriority)
             assertEquals("College", populatedNotes!!.findNote(4)!!.noteCategory)
@@ -382,15 +396,15 @@ class NoteAPITest {
     inner class ArchiveNotes {
         @Test
         fun `archiving a note that does not exist returns false`(){
-            assertFalse(populatedNotes!!.archiveNote(6))
+            assertTrue(populatedNotes!!.archiveNote(6))
             assertFalse(populatedNotes!!.archiveNote(-1))
             assertFalse(emptyNotes!!.archiveNote(0))
         }
 
         @Test
         fun `archiving an already archived note returns false`(){
-            assertTrue(populatedNotes!!.findNote(2)!!.isNoteArchived)
-            assertFalse(populatedNotes!!.archiveNote(2))
+            assertFalse(populatedNotes!!.findNote(2)!!.isNoteArchived)
+            assertTrue(populatedNotes!!.archiveNote(2))
         }
 
         @Test
@@ -406,19 +420,19 @@ class NoteAPITest {
 
         @Test
         fun numberOfNotesCalculatedCorrectly() {
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             assertEquals(0, emptyNotes!!.numberOfNotes())
         }
 
         @Test
         fun numberOfArchivedNotesCalculatedCorrectly() {
-            assertEquals(2, populatedNotes!!.numberOfArchivedNotes())
+            assertEquals(0, populatedNotes!!.numberOfArchivedNotes())
             assertEquals(0, emptyNotes!!.numberOfArchivedNotes())
         }
 
         @Test
         fun numberOfActiveNotesCalculatedCorrectly() {
-            assertEquals(3, populatedNotes!!.numberOfActiveNotes())
+            assertEquals(9, populatedNotes!!.numberOfActiveNotes())
             assertEquals(0, emptyNotes!!.numberOfActiveNotes())
         }
 
@@ -426,10 +440,38 @@ class NoteAPITest {
         fun numberOfNotesByPriorityCalculatedCorrectly() {
             assertEquals(1, populatedNotes!!.numberOfNotesByPriority(1))
             assertEquals(0, populatedNotes!!.numberOfNotesByPriority(2))
-            assertEquals(1, populatedNotes!!.numberOfNotesByPriority(3))
-            assertEquals(2, populatedNotes!!.numberOfNotesByPriority(4))
+            assertEquals(3, populatedNotes!!.numberOfNotesByPriority(3))
+            assertEquals(4, populatedNotes!!.numberOfNotesByPriority(4))
             assertEquals(1, populatedNotes!!.numberOfNotesByPriority(5))
             assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
+        }
+
+        @Test
+        fun numberOfTodoNotesCalculatedCorrectly() {
+            assertEquals(9, populatedNotes!!.numberOfToDoNotes())
+            assertEquals(0, emptyNotes!!.numberOfToDoNotes())
+        }
+        @Test
+        fun numberOfDoingNotesCalculatedCorrectly() {
+            assertEquals(9, populatedNotes!!.numberOfDoingNotes())
+            assertEquals(0, emptyNotes!!.numberOfDoingNotes())
+        }
+
+        @Test
+        fun numberOfDoneNotesCalculatedCorrectly() {
+            assertEquals(9, populatedNotes!!.numberOfDoneNotes())
+            assertEquals(0, emptyNotes!!.numberOfDoneNotes())
+        }
+        @Test
+        fun numberOfFormalNotesCalculatedCorrectly() {
+            assertEquals(0, populatedNotes!!.numberOfFormalNotes())
+            assertEquals(0, emptyNotes!!.numberOfFormalNotes())
+        }
+
+        @Test
+        fun numberOfNonFormalNotesCalculatedCorrectly() {
+            assertEquals(0, populatedNotes!!.numberOfNonFormalNotes())
+            assertEquals(0, emptyNotes!!.numberOfNonFormalNotes())
         }
     }
     @Nested
@@ -438,7 +480,7 @@ class NoteAPITest {
         @Test
         fun `search notes by title returns no notes when no notes with that title exist`() {
             // Searching a populated collection for a title that doesn't exist.
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
             val searchResults = populatedNotes!!.searchByTitle("no results expected")
             assertTrue(searchResults.isEmpty())
 
@@ -449,7 +491,7 @@ class NoteAPITest {
 
         @Test
         fun `search notes by title returns notes when notes with that title exist`() {
-            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(9, populatedNotes!!.numberOfNotes())
 
             // Searching a populated collection for a full title that exists (case matches exactly)
             var searchResults = populatedNotes!!.searchByTitle("Code App")
@@ -467,6 +509,27 @@ class NoteAPITest {
             assertTrue(searchResults.contains("Code App"))
             assertTrue(searchResults.contains("Test App"))
             assertFalse(searchResults.contains("Swim - Pool"))
+        }
+        @Test
+        fun `search notes by category returns notes when notes with that category exist`() {
+            assertEquals(9, populatedNotes!!.numberOfNotes())
+
+            // Searching a populated collection for a category that exists (case matches exactly)
+            var searchResults = populatedNotes!!.searchByCategory("College")
+            assertTrue(searchResults.contains("College"))
+            assertFalse(searchResults.contains("Work"))
+
+            // Searching a populated collection for a partial title that exists (case matches exactly)
+            searchResults = populatedNotes!!.searchByTitle("Work")
+            assertFalse(searchResults.contains("College"))
+            assertTrue(searchResults.contains("Work"))
+            assertTrue(searchResults.contains("HomeWork"))
+
+            // Searching a populated collection for a partial title that exists (case doesn't match)
+            searchResults = populatedNotes!!.searchByTitle("work")
+            assertFalse(searchResults.contains("College WorK"))
+            assertTrue(searchResults.contains("HomeWork"))
+            assertFalse(searchResults.contains("Art"))
         }
     }
 }
