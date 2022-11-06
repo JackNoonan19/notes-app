@@ -24,8 +24,7 @@ fun mainMenu() : Int {
        >|   5) Archive a note     |
        >|   6) Search note        |
        >|   7) Search by Category |
-       >|   8) Make Note Formal   |
-       >|   9)Make Note Non Formal|
+       >|   8) Changes Notes      |
        >|   10)  Save             |
        >|   11) Load              |
        >---------------------------
@@ -45,8 +44,7 @@ fun runMenu(){
             5 -> archiveNote()
             6 -> searchNotes()
             7 -> searchNotesCat()
-            8 -> makeNoteNonFormal()
-            9 -> makeNoteFormal()
+            8 -> changeNotes()
            // 8 -> searchNotesPri()
             10 -> save()
             11 -> load()
@@ -61,7 +59,7 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note:")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, true, false))
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, true,false,false,false, false))
 
     if (isAdded) {
         println("Added Successfully")
@@ -96,6 +94,90 @@ fun listNotes(){
             println("Option Invalid - No notes stored");
         }
     }
+
+
+
+
+fun changeNotes(){
+    //logger.info{"listNotes() function invoked"}
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) Change Formality        |
+                  > |   3) Change Status           |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> noteFormality();
+            3 -> noteStatus();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
+fun noteFormality(){
+    //logger.info{"listNotes() function invoked"}
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) Make Formal             |
+                  > |   3) Make Not Formal         |
+                  > |   4) Make Non Formal         |
+                  > |   5) Make Not Non Formal     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> makeNoteFormal();
+            3 -> makeNoteNotFormal();
+            4 -> makeNoteNonFormal();
+            5 -> makeNoteNotNonFormal();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+fun noteStatus(){
+    //logger.info{"listNotes() function invoked"}
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) Make TO DO              |
+                  > |   3) Make Not TO DO          |
+                  > |   4) Make Doing              |
+                  > |   5) Make Not Doing          |
+                  > |   6) Make Done               |
+                  > |   7) Make Not Done           |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> makeNoteToDo();
+            3 -> makeNoteNotToDo();
+            4 -> makeNoteDoing();
+            5 -> makeNoteNotDoing();
+            6 -> makeNoteDone();
+            7 -> makeNoteNotDone();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
+}
+
 fun updateNote(){
     //logger.info{"updateNote() function invoked"}
     listNotes()
@@ -108,7 +190,7 @@ fun updateNote(){
             val noteCategory = readNextLine("Enter a category for the note: ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, true, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, true,false,false,false, false))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -175,6 +257,7 @@ fun listActiveNotes() {
     println(noteAPI.listActiveNotes())
 }
 
+
 fun listFormalNotes() {
     println(noteAPI.listFormalNotes())
 }
@@ -183,6 +266,17 @@ fun listNonFormalNotes() {
     println(noteAPI.listNonFormalNotes())
 }
 
+fun listTodoNotes() {
+    println(noteAPI.listToDoNotes())
+}
+
+fun listDoingNotes() {
+    println(noteAPI.listDoingNotes())
+}
+
+fun listDoneNotes() {
+    println(noteAPI.listDoneNotes())
+}
 fun archiveNote() {
     listActiveNotes()
     if (noteAPI.numberOfActiveNotes() > 0) {
@@ -254,15 +348,108 @@ fun makeNoteNonFormal() {
 
 
 
+fun makeNoteNotFormal() {
+    listFormalNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToNotFormal = readNextInt("Enter the index of the note to make formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteNotFormal(indexToNotFormal)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
+
+fun makeNoteNotNonFormal() {
+    listNonFormalNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToNotNonFormal = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteNotNonFormal(indexToNotNonFormal)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
 
 
 
 
 
+fun makeNoteToDo() {
+    listTodoNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToToDo = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteTodo(indexToToDo)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
+
+
+fun makeNoteDone() {
+    listDoneNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToDone = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteDone(indexToDone)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
+
+fun makeNoteDoing() {
+    listDoingNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToDoing = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteDoing(indexToDoing)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
 
 
 
 
 
+fun makeNoteNotToDo() {
+    listTodoNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToNotToDo = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteNotTodo(indexToNotToDo)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
 
 
+fun makeNoteNotDone() {
+    listDoneNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToNotDone = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteNotDone(indexToNotDone)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
+
+fun makeNoteNotDoing() {
+    listDoingNotes()
+    //only ask the user to choose the note to archive if active notes exist
+    val indexToNotDoing = readNextInt("Enter the index of the note to make non formal: ")
+    //pass the index of the note to NoteAPI for archiving and check for success.
+    if (noteAPI.makeNoteNotDoing(indexToNotDoing)) {
+        println("Change Successful!")
+    } else {
+        println("Change NOT Successful")
+    }
+}
