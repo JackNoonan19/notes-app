@@ -122,7 +122,6 @@ fun changeNotes(){
 }
 
 fun noteFormality(){
-    //logger.info{"listNotes() function invoked"}
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -148,7 +147,6 @@ fun noteFormality(){
     }
 }
 fun noteStatus(){
-    //logger.info{"listNotes() function invoked"}
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -179,7 +177,6 @@ fun noteStatus(){
 }
 
 fun updateNote(){
-    //logger.info{"updateNote() function invoked"}
     listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
@@ -201,7 +198,6 @@ fun updateNote(){
     }
 }
 fun deleteNote(){
-    //logger.info{"deleteNote() function invoked"}
     listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the notes to delrete if notes exist
