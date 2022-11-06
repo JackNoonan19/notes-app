@@ -23,10 +23,11 @@ fun mainMenu() : Int {
        >|   4) Delete a note      |
        >|   5) Archive a note     |
        >|   6) Search note        |
-       >|   6) Search by Category |
-       >|   6) Search by Priority |
-       >|   7) Save               |
-       >|   8) Load               |
+       >|   7) Search by Category |
+       >|   8) Make Note Formal   |
+       >|   9)Make Note Non Formal|
+       >|   10)  Save             |
+       >|   11) Load              |
        >---------------------------
        >|   0) Exit               |
        >---------------------------
@@ -44,9 +45,11 @@ fun runMenu(){
             5 -> archiveNote()
             6 -> searchNotes()
             7 -> searchNotesCat()
+            8 -> makeNoteNonFormal()
+            9 -> makeNoteFormal()
            // 8 -> searchNotesPri()
-            9 -> save()
-            10 -> load()
+            10 -> save()
+            11 -> load()
             0 -> exitApp()
             else -> println("Invalid option entered: ${option}")
         }
@@ -58,7 +61,7 @@ fun addNote(){
     val noteTitle = readNextLine("Enter a title for the note:")
     val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, true, false))
 
     if (isAdded) {
         println("Added Successfully")
@@ -66,6 +69,7 @@ fun addNote(){
         println("Add Failed")
     }
 }
+
 fun listNotes(){
     //logger.info{"listNotes() function invoked"}
         if (noteAPI.numberOfNotes() > 0) {
@@ -75,6 +79,8 @@ fun listNotes(){
                   > |   1) View ALL notes          |
                   > |   2) View ACTIVE notes       |
                   > |   3) View ARCHIVED notes     |
+                  > |   4) View FORMAL notes       |
+                  > |   5) View NON-FORMAL notes   |
                   > --------------------------------
          > ==>> """.trimMargin(">"))
 
@@ -82,6 +88,8 @@ fun listNotes(){
                 1 -> listAllNotes();
                 2 -> listActiveNotes();
                 3 -> listArchivedNotes();
+                4 -> listFormalNotes();
+                5 -> listNonFormalNotes();
                 else -> println("Invalid option entered: " + option);
             }
         } else {
@@ -100,7 +108,7 @@ fun updateNote(){
             val noteCategory = readNextLine("Enter a category for the note: ")
 
             //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false, true, false))){
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -167,6 +175,14 @@ fun listActiveNotes() {
     println(noteAPI.listActiveNotes())
 }
 
+fun listFormalNotes() {
+    println(noteAPI.listFormalNotes())
+}
+
+fun listNonFormalNotes() {
+    println(noteAPI.listNonFormalNotes())
+}
+
 fun archiveNote() {
     listActiveNotes()
     if (noteAPI.numberOfActiveNotes() > 0) {
@@ -211,6 +227,30 @@ fun searchNotesCat() {
     }
 }
 */
+
+fun makeNoteFormal() {
+    listFormalNotes()
+        //only ask the user to choose the note to archive if active notes exist
+        val indexToFormal = readNextInt("Enter the index of the note to make formal: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (noteAPI.makeNoteFormal(indexToFormal)) {
+            println("Change Successful!")
+        } else {
+            println("Change NOT Successful")
+        }
+}
+
+fun makeNoteNonFormal() {
+    listNonFormalNotes()
+        //only ask the user to choose the note to archive if active notes exist
+        val indexToNonFormal = readNextInt("Enter the index of the note to make non formal: ")
+        //pass the index of the note to NoteAPI for archiving and check for success.
+        if (noteAPI.makeNoteNonFormal(indexToNonFormal)) {
+            println("Change Successful!")
+        } else {
+            println("Change NOT Successful")
+        }
+}
 
 
 
