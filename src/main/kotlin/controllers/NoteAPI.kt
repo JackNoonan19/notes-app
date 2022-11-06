@@ -61,10 +61,31 @@ class NoteAPI(serializerType: Serializer) {
         }
     }*/
 
+
+    fun listToDoNotes(): String =
+    if  (numberOfToDoNotes() == 0)  "No notes marked TO DO"
+    else formatListString(notes.filter { note -> !note.todoNote})
+
+    fun listDoneNotes(): String =
+        if  (numberOfDoneNotes() == 0)  "No notes marked DONE"
+        else formatListString(notes.filter { note -> !note.isNoteDone})
+
+
+    fun listDoingNotes(): String =
+        if  (numberOfDoingNotes() == 0)  "No notes marked DOING"
+        else formatListString(notes.filter { note -> !note.doingNote})
+
+
+
+
     fun numberOfArchivedNotes(): Int = notes.count { note: Note -> note.isNoteArchived }
     fun numberOfActiveNotes(): Int = notes.count { note: Note -> !note.isNoteArchived }
     fun numberOfFormalNotes(): Int = notes.count { note: Note -> note.isNoteFormal }
     fun numberOfNonFormalNotes(): Int = notes.count { note: Note -> !note.isNoteNonFormal }
+
+    fun numberOfToDoNotes(): Int = notes.count { note: Note -> !note.todoNote }
+    fun numberOfDoneNotes(): Int = notes.count { note: Note -> !note.isNoteDone }
+    fun numberOfDoingNotes(): Int = notes.count { note: Note -> !note.doingNote }
 
     fun listNotesBySelectedPriority(priority: Int): String =
         if (notes.isEmpty()) "No notes stored"
@@ -161,9 +182,9 @@ class NoteAPI(serializerType: Serializer) {
         }
         return false
     }
-    fun makeNoteNonFormal(indexToNonFormal: Int): Boolean {
-        if (isValidIndex(indexToNonFormal)) {
-            val noteToNonFormal = notes[indexToNonFormal]
+    fun makeNoteNonFormal(indexToNotNonFormal: Int): Boolean {
+        if (isValidIndex(indexToNotNonFormal)) {
+            val noteToNonFormal = notes[indexToNotNonFormal]
             if (!noteToNonFormal.isNoteNonFormal) {
                 noteToNonFormal.isNoteNonFormal = true
                 return true
@@ -171,6 +192,98 @@ class NoteAPI(serializerType: Serializer) {
         }
         return false
     }
+
+
+
+    fun makeNoteNotFormal(indexToNotFormal: Int): Boolean {
+        if (isValidIndex(indexToNotFormal)) {
+            val noteToNotFormal = notes[indexToNotFormal]
+            if (noteToNotFormal.isNoteFormal) {
+                noteToNotFormal.isNoteFormal = false
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteNotNonFormal(indexToNonFormal: Int): Boolean {
+        if (isValidIndex(indexToNonFormal)) {
+            val noteToNotNonFormal = notes[indexToNonFormal]
+            if (noteToNotNonFormal.isNoteNonFormal) {
+                noteToNotNonFormal.isNoteNonFormal = false
+                return true
+            }
+        }
+        return false
+    }
+
+
+
+
+
+    fun makeNoteDoing(indexToDoing: Int): Boolean {
+        if (isValidIndex(indexToDoing)) {
+            val noteDoing = notes[indexToDoing]
+            if (!noteDoing.doingNote) {
+                noteDoing.doingNote = true
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteTodo(indexToTodo: Int): Boolean {
+        if (isValidIndex(indexToTodo)) {
+            val noteToDo = notes[indexToTodo]
+            if (!noteToDo.todoNote) {
+                noteToDo.todoNote = true
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteDone(indexToDone: Int): Boolean {
+        if (isValidIndex(indexToDone)) {
+            val noteDone = notes[indexToDone]
+            if (!noteDone.isNoteDone) {
+                noteDone.isNoteDone = true
+                return true
+            }
+        }
+        return false
+    }
+
+
+    fun makeNoteNotDoing(indexToDoing: Int): Boolean {
+        if (isValidIndex(indexToDoing)) {
+            val noteDoing = notes[indexToDoing]
+            if (noteDoing.doingNote) {
+                noteDoing.doingNote = false
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteNotTodo(indexToTodo: Int): Boolean {
+        if (isValidIndex(indexToTodo)) {
+            val noteToDo = notes[indexToTodo]
+            if (noteToDo.todoNote) {
+                noteToDo.todoNote = false
+                return true
+            }
+        }
+        return false
+    }
+    fun makeNoteNotDone(indexToDone: Int): Boolean {
+        if (isValidIndex(indexToDone)) {
+            val noteDone = notes[indexToDone]
+            if (!noteDone.isNoteDone) {
+                noteDone.isNoteDone = false
+                return true
+            }
+        }
+        return false
+    }
+
+
 
         fun numberOfNotes(): Int =
         notes.size
